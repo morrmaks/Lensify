@@ -3,13 +3,118 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Основы JavaScript</title>
-  <link rel="stylesheet" href="./pages/style.css">
-  <link rel="stylesheet" href="./vendor/fonts/fonts.css">
+  <title>Lensify</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content="Максим Морозов">
+  <link rel="icon" type="png" href="#">
+  <link rel="stylesheet" href="./pages/index.css">
   <script src="./scripts/script.js" defer></script>
 </head>
 
-<body>
+<body class="body">
+  <div class="page">
+
+    <!-- шапка -->
+    <header class="header page__header">
+      <a class="header__logo-link" href="#">
+        <img class="logo" src="./images/logo-Lensify.svg" alt="Логотип Lensify">
+      </a>
+    </header>
+    <!-- основной контент -->
+    <main class="content page__content">
+      <!-- сеекция профиля -->
+      <section class="profile content__profile" aria-label="Блок с профилем">
+        <img class="avatar" src="./images/image.jpg" alt="аватар профиля" class="avatar">
+        <div class="profile__info">
+          <h1 class="profile__name"> FFFwertysdsdfsdfsdfsdfas</h1>
+          <p class="profile__job">о себе</p>
+          <button class="edit-button profile__edit-button"></button>
+        </div>
+        <button class="add-button profile__add-button"></button>
+      </section>
+
+      <!-- секция фотокарточек -->
+      <section class="elements content__elements" aria-label="Карточки с фотографиями">
+        <ul class="elements__list">
+          <li class="element">
+            <div class="photo__container">
+              <img class="element__trash" src="./images/trash.svg" alt="">
+              <img class="element__photo" src="./images/kirill-pershin-1556355-unsplash.png" alt="">
+            </div>
+            <div class="element__container">
+              <h2 class="element__title">Домбай</h2>
+              <button class="element__like-button"></button>
+              <span class="element__like-counter">0</span>
+            </div>
+          </li>
+          <li class="element">
+            <div class="photo__container">
+              <img class="element__trash" src="./images/trash.svg" alt="">
+              <img class="element__photo" src="./images/kirill-pershin-1404681-unsplash.png" alt="">
+            </div>
+            <div class="element__container">
+              <h2 class="element__title">Степь какая то</h2>
+              <button class="element__like-button"></button>
+              <span class="element__like-counter">0</span>
+            </div>
+          </li>
+          <li class="element">
+            <div class="photo__container">
+              <img class="element__trash" src="./images/trash.svg" alt="">
+              <img class="element__photo" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="">
+            </div>
+            <div class="element__container">
+              <h2 class="element__title">Строение</h2>
+              <button class="element__like-button"></button>
+              <span class="element__like-counter">0</span>
+            </div>
+          </li>
+          <li class="element">
+            <div class="photo__container">
+              <img class="element__trash" src="./images/trash.svg" alt="">
+              <img class="element__photo" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="">
+            </div>
+            <div class="element__container">
+              <h2 class="element__title">Добмай</h2>
+              <button class="element__like-button"></button>
+              <span class="element__like-counter">0</span>
+            </div>
+          </li>
+          <li class="element">
+            <div class="photo__container">
+              <img class="element__trash" src="./images/trash.svg" alt="">
+              <img class="element__photo" src="./images/kirill-pershin-1556355-unsplash.png" alt="">
+            </div>
+            <div class="element__container">
+              <h2 class="element__title">Добмайfasdfdsfadfsfsdfsdf</h2>
+              <button class="element__like-button"></button>
+              <span class="element__like-counter">0</span>
+            </div>
+          </li>
+          <li class="element">
+            <div class="photo__container">
+              <img class="element__trash" src="./images/trash.svg" alt="">
+              <img class="element__photo" src="./images/kirill-pershin-1404681-unsplash.png" alt="">
+            </div>
+            <div class="element__container">
+              <h2 class="element__title">Добмай</h2>
+              <button class="element__like-button"></button>
+              <span class="element__like-counter">0</span>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- попап -->
+    </main>
+
+    <!-- подвал -->
+    <footer class="footer page__footer">
+      <p class="footer__copyright">© 2024 Lensify</p>
+    </footer>
+  </div>
 </body>
 
 </html>

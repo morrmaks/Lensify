@@ -199,7 +199,7 @@
   background-position: center;
   border: 1px solid #fff;
   border-radius: 3px;
-  transition: opacity 0.3s
+  transition: opacity 0.3s;
 }
 
 .edit-button:hover {
@@ -377,6 +377,120 @@
   justify-self: center;
   grid-row: 2;
   grid-column: 2;
+}
+
+
+/* -------------------------------------------------------- */
+/* -------------------------------------------------------- */
+/* попап */
+
+.popup {
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  z-index: 2;
+  font-family: 'Inter', arial, helvetica, sans-serif;
+  color: #000;
+  display: none;
+}
+
+.popup__opened {
+  display: block;
+}
+
+.popup__container {
+  width: 430px;
+  min-height: 330px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-sizing: border-box;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 35px 36px 37px;
+}
+
+.popup__title {
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.popup__form {
+  margin: 47px 0 0;
+}
+
+.popup__form-info {
+  display: flex;
+  flex-direction: column;
+  max-width: 358px;
+  min-height: 182px;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+.popup__label {
+  margin: 30px 0 0;
+}
+
+.popup__label:first-of-type{
+  margin: 0;
+}
+
+.popup__input {
+  width: 100%;
+  min-height: 26px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 1px;
+  padding: 0 0 0 5px;
+}
+
+.popup__input:focus {
+  outline: 1.5px solid #000;
+}
+
+.popup__save-button {
+  font-size: 18px;
+  min-height: 50px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 2px;
+  padding: 0;
+  margin: 48px 0 0;
+  transition: 0.3s;
+}
+
+.popup__save-button:hover {
+  /* opacity: 0.8; */
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.popup__close-button {
+  width: 32px;
+  height: 32px;
+  background-color: transparent;
+  border: none;
+  background-image: url(../images/CloseIcon.svg);
+  background-position: center;
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  transition: 0.3s;
+}
+
+.popup__close-button:hover {
+  opacity: 0.6;
+  cursor: pointer;
 }
 
 

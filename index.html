@@ -28,8 +28,8 @@
       <section class="profile content__profile" aria-label="Блок с профилем">
         <img class="avatar" src="./images/image.jpg" alt="аватар профиля" class="avatar">
         <div class="profile__info">
-          <h1 class="profile__name"> FFFwertysdsdfsdfsdfsdfas</h1>
-          <p class="profile__job">о себе</p>
+          <h1 class="profile__name"> Maksim Morozov</h1>
+          <p class="profile__job">cybersports gaming</p>
           <button class="edit-button profile__edit-button"></button>
         </div>
         <button class="add-button profile__add-button"></button>
@@ -39,8 +39,8 @@
       <section class="elements content__elements" aria-label="Карточки с фотографиями">
         <ul class="elements__list">
           <li class="element">
-            <div class="photo__container">
-              <img class="element__trash" src="./images/trash.svg" alt="">
+            <div class="element__photo-container">
+              <button class="element__trash"></button>
               <img class="element__photo" src="./images/kirill-pershin-1556355-unsplash.png" alt="">
             </div>
             <div class="element__container">
@@ -50,8 +50,8 @@
             </div>
           </li>
           <li class="element">
-            <div class="photo__container">
-              <img class="element__trash" src="./images/trash.svg" alt="">
+            <div class="element__photo-container">
+              <button class="element__trash"></button>
               <img class="element__photo" src="./images/kirill-pershin-1404681-unsplash.png" alt="">
             </div>
             <div class="element__container">
@@ -61,8 +61,8 @@
             </div>
           </li>
           <li class="element">
-            <div class="photo__container">
-              <img class="element__trash" src="./images/trash.svg" alt="">
+            <div class="element__photo-container">
+              <button class="element__trash"></button>
               <img class="element__photo" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="">
             </div>
             <div class="element__container">
@@ -72,8 +72,8 @@
             </div>
           </li>
           <li class="element">
-            <div class="photo__container">
-              <img class="element__trash" src="./images/trash.svg" alt="">
+            <div class="element__photo-container">
+              <button class="element__trash"></button>
               <img class="element__photo" src="./images/kirill-pershin-1088404-unsplash.jpg" alt="">
             </div>
             <div class="element__container">
@@ -83,8 +83,8 @@
             </div>
           </li>
           <li class="element">
-            <div class="photo__container">
-              <img class="element__trash" src="./images/trash.svg" alt="">
+            <div class="element__photo-container">
+              <button class="element__trash"></button>
               <img class="element__photo" src="./images/kirill-pershin-1556355-unsplash.png" alt="">
             </div>
             <div class="element__container">
@@ -94,8 +94,8 @@
             </div>
           </li>
           <li class="element">
-            <div class="photo__container">
-              <img class="element__trash" src="./images/trash.svg" alt="">
+            <div class="element__photo-container">
+              <button class="element__trash"></button>
               <img class="element__photo" src="./images/kirill-pershin-1404681-unsplash.png" alt="">
             </div>
             <div class="element__container">
@@ -108,7 +108,7 @@
       </section>
 
       <!-- попап -->
-      <section class="popup">
+      <section class="popup" id="popup-edit">
         <div class="popup__container">
           <h2 class="popup__title">Редактировать профиль</h2>
           <form action="" class="popup__form">
@@ -125,7 +125,34 @@
           <button class="popup__close-button"></button>
         </div>
       </section>
+
+      <section class="popup" id="popup-add">
+        <div class="popup__container">
+          <h2 class="popup__title">Публикация</h2>
+          <form action="" class="popup__form">
+            <fieldset class="popup__form-info">
+              <label class="popup__label" for="name">
+                <input type="text" class="popup__input" id="name" name="name" placeholder="Название">
+              </label>
+              <label class="popup__label" for="about">
+                <input type="text" class="popup__input" id="about" name="about" placeholder="Ссылка на изображение">
+              </label>
+              <button class="popup__save-button" type="submit">Сохранить</button>
+            </fieldset>
+          </form>
+          <button class="popup__close-button"></button>
+        </div>
+      </section>
     </main>
+
+    <section class="popup popup__opened" id="popup-picture">
+      <h2 class="popup__title">Публикация</h2>
+        <figure class="popup__image-container">
+          <img src="" alt="" class="popup__image">
+          <figcation class="popup__caption"></figcation>
+        </figure>
+      <button class="popup__close-button"></button>
+    </section>
 
     <!-- подвал -->
     <footer class="footer page__footer">

@@ -1,0 +1,10 @@
+.profile__add-button {
+  margin-left: auto;
+  align-self: center;
+}
+
+@media (max-width: 528px) {
+  .profile__add-button {
+    margin: 17px 0 0;
+  }
+}

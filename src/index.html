@@ -8,18 +8,14 @@
   <meta name="description" content="">
   <meta name="keywords" content="">
   <meta name="author" content="Максим Морозов">
-  <link rel="icon" type="png" href="./images/logo-Lensify_favicon.svg">
-  <link rel="stylesheet" href="./pages/index.css">
-  <script src="./scripts/script.js" defer></script>
 </head>
 
 <body class="body">
   <div class="page">
-
     <!-- шапка -->
     <header class="header page__header">
       <a class="header__logo-link" href="#">
-        <img class="logo" src="./images/logo-Lensify.svg" alt="Логотип Lensify">
+        <img class="header__logo" src="<%= require('./images/logo-Lensify.svg') %>" alt="Логотип Lensify">
       </a>
     </header>
     <!-- основной контент -->
@@ -27,7 +23,8 @@
       <!-- сеекция профиля -->
       <section class="profile content__profile" aria-label="Блок с профилем">
         <div class="profile__avatar-container">
-          <img class="profile__avatar" src="./images/ava.jpg" alt="аватар профиля">
+          <div id="progress"></div>
+          <img class="profile__avatar" src="<%= require('./images/ava.jpg') %>" alt="аватар профиля">
         </div>
         <div class="profile__info">
           <h1 class="profile__name"> Maksim Morozov</h1>
@@ -40,72 +37,6 @@
       <!-- секция фотокарточек -->
       <section class="cards content__cards" aria-label="Карточки с фотографиями">
         <ul class="cards__list">
-          <li class="card">
-            <button class="card__delete"></button>
-            <img class="card__photo"
-              src="https://images.unsplash.com/photo-1731877798699-3445269c7d61?q=80&w=2675&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="Cybersport gaming">
-            <div class="card__container">
-              <h2 class="card__title">Cybersport gaming</h2>
-              <button class="card__like-button"></button>
-              <span class="card__like-counter">1132</span>
-            </div>
-          </li>
-          <li class="card">
-            <button class="card__delete"></button>
-            <img class="card__photo"
-              src="https://images.unsplash.com/photo-1632297174075-88bf9f2ae509?q=80&w=2535&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="Степь какая то">
-            <div class="card__container">
-              <h2 class="card__title">Степь какая то</h2>
-              <button class="card__like-button"></button>
-              <span class="card__like-counter">453</span>
-            </div>
-          </li>
-          <li class="card">
-            <button class="card__delete"></button>
-            <img class="card__photo"
-              src="https://images.unsplash.com/photo-1731641772346-46aff772fd9b?q=80&w=2675&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="Строение">
-            <div class="card__container">
-              <h2 class="card__title">Строение</h2>
-              <button class="card__like-button"></button>
-              <span class="card__like-counter">22534</span>
-            </div>
-          </li>
-          <li class="card">
-            <button class="card__delete"></button>
-            <img class="card__photo"
-              src="https://plus.unsplash.com/premium_photo-1723795238501-4df5e9d112f1?q=80&w=2576&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="Добмай">
-            <div class="card__container">
-              <h2 class="card__title">Добмай</h2>
-              <button class="card__like-button"></button>
-              <span class="card__like-counter">76</span>
-            </div>
-          </li>
-          <li class="card">
-            <button class="card__delete"></button>
-            <img class="card__photo"
-              src="https://images.unsplash.com/photo-1732210064466-c7c26b4d2ca7?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="Добмайfasdfdsfadfsfsdfsdf">
-            <div class="card__container">
-              <h2 class="card__title">Добмайfasdfdsfadfsfsdfsdf</h2>
-              <button class="card__like-button"></button>
-              <span class="card__like-counter">543</span>
-            </div>
-          </li>
-          <li class="card">
-            <button class="card__delete"></button>
-            <img class="card__photo"
-              src="https://images.unsplash.com/photo-1731848358416-bc131af0f433?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="Добмай">
-            <div class="card__container">
-              <h2 class="card__title">Добмай</h2>
-              <button class="card__like-button"></button>
-              <span class="card__like-counter">123</span>
-            </div>
-          </li>
         </ul>
       </section>
     </main>
@@ -124,9 +55,9 @@
         <form action="" class="popup__form" name="avatar">
           <fieldset class="popup__info">
             <label class="popup__label" for="edit-avatar">
-              <input type="url" class="popup__input" id="edit-avatar" name="avatar" placeholder="Ссылка на изображение">
+              <input type="url" class="popup__input" id="edit-avatar" name="avatar" placeholder="Ссылка на изображение" required>
             </label>
-            <button class="popup__save-button" type="submit">Сохранить</button>
+            <button class="popup__save-button popup__save-button_disabled" type="submit" disabled>Сохранить</button>
           </fieldset>
         </form>
       </div>
@@ -140,7 +71,7 @@
         <form action="" class="popup__form" name="edit-profile">
           <fieldset class="popup__info">
             <label class="popup__label" for="name">
-              <input type="text" class="popup__input" id="name" name="name" placeholder="Ваше имя">
+              <input type="text" class="popup__input" id="name" name="name" placeholder="Ваше имя" required>
             </label>
             <label class="popup__label" for="about">
               <input type="text" class="popup__input" id="about" name="about" placeholder="О себе">
@@ -162,8 +93,7 @@
               <input type="text" class="popup__input" id="create-card__title" name="name" placeholder="Название">
             </label>
             <label class="popup__label" for="create-card__link">
-              <input type="url" class="popup__input" id="create-card__link" name="link"
-                placeholder="Ссылка на изображение">
+              <input type="url" class="popup__input" id="create-card__link" name="link" placeholder="Ссылка на изображение" required>
             </label>
             <button class="popup__save-button" type="submit">Сохранить</button>
           </fieldset>

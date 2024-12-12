@@ -1,0 +1,28 @@
+.card__delete {
+  width: 18px;
+  height: 19px;
+  position: absolute;
+  background-color: transparent;
+  background-image: url(../../../images/trash.svg);
+  border: none;
+  top: 20px;
+  right: 20px;
+  z-index: 1;
+  opacity: 0.4;
+  transition: 0.3s;
+}
+
+.card:hover .card__delete {
+  opacity: 1;
+}
+
+.card .card__delete:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+@media (hover: none) { /* для мобильных устройств */
+  .card__delete {
+    opacity: 1;
+  }
+}

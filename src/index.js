@@ -1,27 +1,35 @@
+import '../src/index.css';
+if (module.hot) {
+  module.hot.accept();
+};
+
 class Popup {
   constructor(popupSelector) {
     this.popup = document.querySelector(popupSelector);
+    // возврат функций с привязаннм контекстом
+    this.handleClickEsc = this._handleClickEsc.bind(this);
+    this.handleCloseEvent = this._handleCloseEvent.bind(this);
   }
 
   open() {
     this.popup.classList.add('popup__opened');
-    document.addEventListener('keydown', evt => this.#handleClickEsc(evt));
-    this.popup.addEventListener('mousedown', evt => this.#handleCloseEvent(evt));
+    document.addEventListener('keydown', this.handleClickEsc);
+    this.popup.addEventListener('mousedown', this.handleCloseEvent);
   }
 
   close() {
     this.popup.classList.remove('popup__opened');
-    document.removeEventListener('keydown', evt => this.#handleClickEsc(evt));
-    this.popup.removeEventListener('mousedown', evt => this.#handleCloseEvent(evt));
+    document.removeEventListener('keydown', this.handleClickEsc); // именнованная функция, что бы можно было удалить слушатель
+    this.popup.removeEventListener('mousedown', this.handleCloseEvent);
   }
 
-  #handleClickEsc(evt) {
+  _handleClickEsc(evt) {
     if (evt.key === "Escape") {
       this.close();
     };
   }
 
-  #handleCloseEvent(evt) {
+  _handleCloseEvent(evt) {
     if (
       evt.target.classList.contains('popup__opened') ||
       evt.target.classList.contains('popup__close-button')
@@ -108,17 +116,21 @@ const cardTitle = document.querySelector('.card__title');
 const cardPhoto = document.querySelector('.card__photo');
 
 
-formCreateCard.addEventListener('submit', evt => {
-  evt.preventDefault();
+function addNewCard(title, link) {
   // клон элемента карточки по шаблону
   const cardTemplate = document.querySelector('#card-template').content;
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
 
-  cardElement.querySelector('.card__photo').src = cardLinkInput.value;
-  cardElement.querySelector('.card__photo').alt = cardTitleInput.value;
-  cardElement.querySelector('.card__title').textContent = cardTitleInput.value;
+  cardElement.querySelector('.card__photo').src = link;
+  cardElement.querySelector('.card__photo').alt = title;
+  cardElement.querySelector('.card__title').textContent = title;
 
-  cardList.append(cardElement);
+  cardList.prepend(cardElement);
+}
+
+formCreateCard.addEventListener('submit', evt => {
+  evt.preventDefault();
+  addNewCard(cardTitleInput.value, cardLinkInput.value);
   // очистка полей
   cardLinkInput.value = '';
   cardTitleInput.value = '';
@@ -176,3 +188,47 @@ cardList.addEventListener('click', evt => {
   popupCaption.textContent = cardPicture.alt;
   popupFullScreenPicture.open();
 });
+
+
+const initialCards = [
+  {
+    name: 'Вроде Англия, а вроде не Англия',
+    link: 'https://images.unsplash.com/photo-1731877798699-3445269c7d61?q=80&w=2675&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+  },
+  {
+    name: 'Парк в штате Орегон',
+    link: 'https://images.unsplash.com/photo-1632297174075-88bf9f2ae509?q=80&w=2535&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+  },
+  {
+    name: 'Таверна в Занзибаре',
+    link: 'https://images.unsplash.com/photo-1731641772346-46aff772fd9b?q=80&w=2675&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+  },
+  {
+    name: 'Нет лучше в NFS',
+    link: 'https://images.unsplash.com/photo-1727258720973-fefc6360944d?q=80&w=2487&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+  },
+  {
+    name: 'Погнал в ассасина катну',
+    link: 'https://images.unsplash.com/photo-1732021408762-7c8fca31da79?q=80&w=2536&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+  },
+  {
+    name: 'Северное сияние в Исландии',
+    link: 'https://images.unsplash.com/photo-1679163903973-2ddc083c8fcc?q=80&w=2519&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+  },
+  {
+    name: 'Ночное путешествие по Австрии',
+    link: 'https://images.unsplash.com/photo-1688410053610-42290a7267df?q=80&w=2458&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+  },
+  {
+    name: 'Че за негатив?',
+    link: 'https://images.unsplash.com/photo-1718462670652-8db865f862bc?q=80&w=2385&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+  },
+  {
+    name: 'Состояние по жизни',
+    link: 'https://images.unsplash.com/photo-1732692694163-1541619a602c?q=80&w=2372&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+  }
+];
+
+
+initialCards.forEach(card => addNewCard(card.name, card.link));
+

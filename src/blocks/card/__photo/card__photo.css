@@ -1,0 +1,13 @@
+.card__photo {
+  width: 100%;
+  min-height: 371px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.3s;
+  aspect-ratio: 1;
+}
+
+.card:hover .card__photo {
+  transform: scale(1.05);
+}

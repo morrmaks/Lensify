@@ -1,0 +1,49 @@
+.popup__container {
+  width: 430px;
+  max-height: 100vh;
+  min-height: 196px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 35px 36px 37px;
+  animation: popup-close 0.2s ease forwards; /* анимация срабатывает всегда */
+}
+
+.popup__opened .popup__container {
+  animation: popup-open 0.2s ease;
+}
+
+@media (max-width: 528px) {
+  .popup__container {
+    max-width: 282px;
+    min-height: 162px;
+    padding: 25px 22px;
+  }
+}
+
+@keyframes popup-open {
+  0% {
+    transform: scale(1);
+  }
+  1% {
+    transform: scale(0.5)
+  }
+  75% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes popup-close {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0.5);
+  }
+}

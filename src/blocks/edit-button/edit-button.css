@@ -1,0 +1,23 @@
+.edit-button {
+  width: 24px;
+  height: 24px;
+  background-color: transparent;
+  background-image: url(../../images/pen.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  transition: opacity 0.3s;
+}
+
+@media (max-width: 528px) {
+  .edit-button {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.edit-button:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}

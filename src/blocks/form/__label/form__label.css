@@ -1,0 +1,8 @@
+.form__label {
+  position: relative;
+  margin: 35px 0 0;
+}
+
+.form__label:first-of-type{
+  margin: 0;
+}

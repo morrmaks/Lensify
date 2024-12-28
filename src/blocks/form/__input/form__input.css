@@ -1,4 +1,4 @@
-.popup__input {
+.form__input {
   width: 100%;
   min-height: 26px;
   font-size: 14px;
@@ -10,6 +10,6 @@
   padding: 0 0 0 5px;
 }
 
-.popup__input:focus {
+.form__input:focus {
   outline: 1.5px solid #000;
 }

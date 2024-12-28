@@ -1,67 +1,46 @@
 import '../src/index.css';
+import { config } from '@utils/constants.js';
+import FormValidator from '@components/FormValidator';
+import PopupWithForm from '@components/PopupWithForm.js';
+import PopupWithConfirm from '@components/PopupWithConfirm.js';
+import PopupWithImage from '@components/PopupWithImage.js';
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_API_KEY = process.env.SUPABASE_API_KEY;
+
+const headers = {
+  'Content-Type': 'application/json',
+  'Prefer': 'return=representation',
+  'apikey': SUPABASE_API_KEY,
+  'Authorization': `Bearer ${SUPABASE_API_KEY}`
+};
+
+
+//подключение горячих модулей вебпак
 if (module.hot) {
   module.hot.accept();
 };
 
-class Popup {
-  constructor(popupSelector) {
-    this.popup = document.querySelector(popupSelector);
-    // возврат функций с привязаннм контекстом
-    this.handleClickEsc = this._handleClickEsc.bind(this);
-    this.handleCloseEvent = this._handleCloseEvent.bind(this);
-  }
-
-  open() {
-    this.popup.classList.add('popup__opened');
-    document.addEventListener('keydown', this.handleClickEsc);
-    this.popup.addEventListener('mousedown', this.handleCloseEvent);
-  }
-
-  close() {
-    this.popup.classList.remove('popup__opened');
-    document.removeEventListener('keydown', this.handleClickEsc); // именнованная функция, что бы можно было удалить слушатель
-    this.popup.removeEventListener('mousedown', this.handleCloseEvent);
-  }
-
-  _handleClickEsc(evt) {
-    if (evt.key === "Escape") {
-      this.close();
-    };
-  }
-
-  _handleCloseEvent(evt) {
-    if (
-      evt.target.classList.contains('popup__opened') ||
-      evt.target.classList.contains('popup__close-button')
-    ) {
-      this.close();
-    }
-  }
+const formValidators = [];
+//подключение валидации всех форм
+const enableValidationForms = () => {
+  const formList = Array.from(document.forms);
+  formList.forEach(form => {
+    const validator = new FormValidator(config, form);
+    formValidators[form.name] = validator;
+    validator.enableValidation();
+  })
 }
 
-class PopupWithForm extends Popup {
-  constructor(popupSelector) {
-    super(popupSelector);
-  }
-}
-
-class PopupWithConfirm extends Popup {
-  constructor(popupSelector) {
-    super(popupSelector);
-  }
-}
-
-class PopupWithImage extends Popup {
-  constructor(popupSelector) {
-    super(popupSelector);
-  }
-}
+enableValidationForms();
 
 const popupAvatarEdit = new PopupWithForm('#popup-avatar');
 const editAvatarButton = document.querySelector('.profile__avatar-container');
-editAvatarButton.addEventListener('click', () => popupAvatarEdit.open());
+editAvatarButton.addEventListener('click', () => {
+  formValidators[popupAvatarEdit.getPopupForm().name].resetValidation()
+  popupAvatarEdit.open();
+});
 
-const formAvatarEdit = document.querySelector('.popup__form[name="avatar"]');
+const formAvatarEdit = document.querySelector('.form[name="avatar"]');
 const avatarInput = document.querySelector('#edit-avatar');
 const avatarProfile = document.querySelector('.profile__avatar');
 
@@ -79,17 +58,22 @@ formAvatarEdit.addEventListener('submit', evt => {
 
 
 const popupProfileEdit = new PopupWithForm('#popup-edit');
-const editProfileButton = document.querySelector('.edit-button');
-editProfileButton.addEventListener('click', () => popupProfileEdit.open());
 
-const formProfileEdit = document.querySelector('.popup__form[name="edit-profile"]');
 const nameInput = document.querySelector('#name');
 const bioInput = document.querySelector('#about');
 const profileName = document.querySelector('.profile__name');
 const profileBio = document.querySelector('.profile__bio');
 
-nameInput.value = profileName.textContent;
-bioInput.value = profileBio.textContent;
+const editProfileButton = document.querySelector('.edit-button');
+
+editProfileButton.addEventListener('click', () => {
+  nameInput.value = profileName.textContent;
+  bioInput.value = profileBio.textContent;
+  formValidators[popupProfileEdit.getPopupForm().name].resetValidation();
+  popupProfileEdit.open();
+});
+
+const formProfileEdit = document.querySelector('.form[name="edit-profile"]');
 
 formProfileEdit.addEventListener('submit', evt => {
   evt.preventDefault();
@@ -106,18 +90,31 @@ formProfileEdit.addEventListener('submit', evt => {
 
 const popupAdd = new PopupWithForm('#popup-create-card');
 const addButton = document.querySelector('.add-button');
-addButton.addEventListener('click', () => popupAdd.open())
+addButton.addEventListener('click', () => {
+  formValidators[popupAdd.getPopupForm().name].resetValidation()
+  popupAdd.open();
+});
 
 const cardList = document.querySelector('.cards__list');
-const formCreateCard = document.querySelector('.popup__form[name="create-card"]');
+const formCreateCard = document.querySelector('.form[name="create-card"]');
 const cardTitleInput = document.querySelector('#create-card__title');
 const cardLinkInput = document.querySelector('#create-card__link');
-const cardTitle = document.querySelector('.card__title');
-const cardPhoto = document.querySelector('.card__photo');
+// const cardTitle = document.querySelector('.card__title');
+// const cardPhoto = document.querySelector('.card__photo');
 
+
+fetch(`https://mesto.nomoreparties.co/v1/cohort-34/cards`, {
+  method: 'GET',
+  headers: {
+    'Content-Type': 'application/json',
+    // 'Prefer': 'return=representation',
+    // 'apikey': SUPABASE_API_KEY,
+    authorization: `19e0a0be-b386-40fd-af16-51b037973d07`
+  }
+}).then(response => console.log(response.json()))
 
 function addNewCard(title, link) {
-  // клон элемента карточки по шаблону
+  // Клон элемента карточки по шаблону
   const cardTemplate = document.querySelector('#card-template').content;
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
 
@@ -128,14 +125,42 @@ function addNewCard(title, link) {
   cardList.prepend(cardElement);
 }
 
-formCreateCard.addEventListener('submit', evt => {
+// Обработчик отправки формы
+formCreateCard.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  addNewCard(cardTitleInput.value, cardLinkInput.value);
-  // очистка полей
+
+  const title = cardTitleInput.value;
+  const link = cardLinkInput.value;
+
+  // Добавление карточки на страницу
+  addNewCard(title, link);
+
+  fetch(`${SUPABASE_URL}/rest/v1/cards`, {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify({
+      name: title,
+      link: link
+    })
+  })
+    .then(response => {
+      if (!response.ok) {
+        return response.json().then(error => {
+          throw new Error(error.message)
+        });
+      }
+      response.json()
+        .then(response => console.log(response));
+    })
+    .catch(error => {
+      console.error('Ошибка при добавлении карточки:', error.message)
+    })
+
+  // Очистка полей формы
   cardLinkInput.value = '';
   cardTitleInput.value = '';
   popupAdd.close();
-})
+});
 
 
 
@@ -144,7 +169,7 @@ formCreateCard.addEventListener('submit', evt => {
 
 
 const popupDeleteCard = new PopupWithConfirm('#popup-delete-card');
-const formDeleteCard = document.querySelector('.popup__form[name="delete-card"]');
+const formDeleteCard = document.querySelector('.form[name="delete-card"]');
 
 cardList.addEventListener('click', evt => {
   if (evt.target.matches('.card__delete')) {
@@ -167,13 +192,6 @@ const popupFullScreenPicture = new PopupWithImage('#popup-picture');
 const popupImage = document.querySelector('.popup__image');
 const popupCaption = document.querySelector('.popup__caption');
 
-// поставить лайк, если нажали на кнопку лайка в контейнере карточек
-cardList.addEventListener('click', evt => {
-  const evtTarget = evt.target;
-  if (evtTarget.matches('.card__like-button')) {
-    evtTarget.classList.toggle('card__like-button_active');
-  }
-});
 // открыть картинку на которую нажали если нажали на картинку в контейнере карточек
 cardList.addEventListener('click', evt => {
   const evtTarget = evt.target;
@@ -188,6 +206,15 @@ cardList.addEventListener('click', evt => {
   popupCaption.textContent = cardPicture.alt;
   popupFullScreenPicture.open();
 });
+
+// поставить лайк, если нажали на кнопку лайка в контейнере карточек
+cardList.addEventListener('click', evt => {
+  const evtTarget = evt.target;
+  if (evtTarget.matches('.card__like-button')) {
+    evtTarget.classList.toggle('card__like-button_active');
+  }
+});
+
 
 
 const initialCards = [
@@ -220,8 +247,8 @@ const initialCards = [
     link: 'https://images.unsplash.com/photo-1688410053610-42290a7267df?q=80&w=2458&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
   },
   {
-    name: 'Че за негатив?',
-    link: 'https://images.unsplash.com/photo-1718462670652-8db865f862bc?q=80&w=2385&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+    name: 'прикол',
+    link: 'https://images.unsplash.com/photo-1734021619978-e544c3607c28?q=80&w=1828&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
   },
   {
     name: 'Состояние по жизни',
@@ -231,4 +258,3 @@ const initialCards = [
 
 
 initialCards.forEach(card => addNewCard(card.name, card.link));
-

@@ -1,7 +1,8 @@
 const path = require('path');
-const {buildPlugins} = require('./build/buildPlugins');
-const {buildDevServer} = require('./build/buildDevServer');
-const {buildLoaders} = require('./build/buildLoaders');
+const { buildPlugins } = require('./build/buildPlugins');
+const { buildDevServer } = require('./build/buildDevServer');
+const { buildLoaders } = require('./build/buildLoaders');
+const { buildResolvers } = require('./build/buildResolvers');
 
 module.exports = (env) => { //передает переменную окружения
   const isDev = env.mode === 'development';
@@ -20,5 +21,6 @@ module.exports = (env) => { //передает переменную окруже
       rules: buildLoaders(isDev),
     },
     plugins: buildPlugins(isProd),
+    resolve: buildResolvers(),
   }
 };

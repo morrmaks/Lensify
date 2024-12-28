@@ -1,0 +1,4 @@
+.form__input_has-error {
+  border-color: #f00;
+  color: #f00;
+}

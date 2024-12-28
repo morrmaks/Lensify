@@ -1,9 +1,9 @@
-.popup__save-button_disabled {
+.form__save-button_disabled {
   background-color: #e6e6e6;
   color: #909090;
 }
 
-.popup__save-button_disabled:hover {
+.form__save-button_disabled:hover {
   opacity: 1;
   cursor: not-allowed;
 }

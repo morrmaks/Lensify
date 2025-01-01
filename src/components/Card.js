@@ -28,6 +28,7 @@ export default class Card {
     this._cardImage = this._cardElement.querySelector('.card__image');
     this._cardTitle = this._cardElement.querySelector('.card__title');
 
+    this._likeCounter.textContent = this.likesAmount();
     this._cardImage.src = this._image;
     this._cardImage.alt = this._title;
     this._cardTitle.textContent = this._title;
@@ -38,6 +39,11 @@ export default class Card {
 
   deleteCard() {
 
+  }
+
+  likesAmount() {
+    if (this._likes === null) return;
+    return this._likes.length;
   }
 
   setLike(evtTarget) {

@@ -38,7 +38,9 @@ api.renderUserAndCards()
     userId = user[0].id;
     userInfo.setUserInfo(user[0]);
     userInfo.setUserAvatar(user[0]);
-    // cards.forEach(card => {addNewCard(card.name, card.link)});
+    cards.forEach(card => {
+      cardList.addItem(createNewCard(card));
+    })
   })
   .catch(err => console.log(err));
 
@@ -118,12 +120,6 @@ const popupAddCard = new PopupWithForm('#popup-create-card', (data, submitButton
 
 
 
-// const cardList = document.querySelector('.cards__list');
-const formCreateCard = document.querySelector('.form[name="create-card"]');
-const cardTitleInput = document.querySelector('#create-card__title');
-const cardLinkInput = document.querySelector('#create-card__link');
-
-
 // fetch(`https://mesto.nomoreparties.co/v1/cohort-34/users/me`, {
 //   method: 'GET',
 //   headers: {
@@ -133,54 +129,6 @@ const cardLinkInput = document.querySelector('#create-card__link');
 //     authorization: `19e0a0be-b386-40fd-af16-51b037973d07`
 //   }
 // }).then(response => console.log(response.json()))
-
-// function addNewCard(title, link) {
-//   // Клон элемента карточки по шаблону
-//   const cardTemplate = document.querySelector('#card-template').content;
-//   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
-
-//   cardElement.querySelector('.card__image').src = link;
-//   cardElement.querySelector('.card__image').alt = title;
-//   cardElement.querySelector('.card__title').textContent = title;
-
-//   cardList.prepend(cardElement);
-// }
-
-// formCreateCard.addEventListener('submit', (evt) => {
-//   evt.preventDefault();
-
-//   const title = cardTitleInput.value;
-//   const link = cardLinkInput.value;
-
-//   // Добавление карточки на страницу
-//   addNewCard(title, link);
-
-//   fetch(`${SUPABASE_URL}/cards`, {
-//     method: 'POST',
-//     headers: headers,
-//     body: JSON.stringify({
-//       name: title,
-//       link: link
-//     })
-//   })
-//     .then(response => {
-//       if (!response.ok) {
-//         return response.json().then(error => {
-//           throw new Error(error.message)
-//         });
-//       }
-//       response.json()
-//         .then(response => console.log(response));
-//     })
-//     .catch(error => {
-//       console.error('Ошибка при добавлении карточки:', error.message)
-//     })
-
-//   // Очистка полей формы
-//   popupAddCard.close();
-// });
-
-
 
 
 

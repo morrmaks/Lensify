@@ -24,7 +24,7 @@
       <section class="profile content__profile" aria-label="Блок с профилем">
         <div class="profile__avatar-container">
           <div id="progress"></div>
-          <img class="profile__avatar" src="<%= require('./images/ava.jpg') %>" alt="аватар профиля">
+          <img class="profile__avatar" src="https://grandfestival.vcht.center/storage/exponents/logos/2186_logo.jpg" alt="аватар профиля">
         </div>
         <div class="profile__info">
           <h1 class="profile__name">Maksim Morozov</h1>
@@ -75,9 +75,9 @@
               <input type="text" class="form__input" id="name" name="name" placeholder="Ваше имя" minlength="2" maxlength="40" required>
               <span class="form__error" id="name-error"></span>
             </label>
-            <label class="form__label" for="about">
-              <input type="text" class="form__input" id="about" name="about" placeholder="О себе" minlength="2" maxlength="200">
-              <span class="form__error" id="about-error"></span>
+            <label class="form__label" for="bio">
+              <input type="text" class="form__input" id="bio" name="bio" placeholder="О себе" minlength="2" maxlength="200">
+              <span class="form__error" id="bio-error"></span>
             </label>
             <button class="form__save-button" type="submit">Сохранить</button>
           </fieldset>
@@ -85,7 +85,7 @@
       </div>
     </section>
 
-    <!-- попап добавления изображения -->
+    <!-- попап добавления карточки -->
     <section class="popup" id="popup-create-card">
       <div class="popup__container">
         <button class="popup__close-button"></button>
@@ -106,7 +106,7 @@
       </div>
     </section>
 
-    <!-- попап удаления изображения -->
+    <!-- попап удаления карточки -->
     <section class="popup" id="popup-delete-card">
       <div class="popup__container">
         <button class="popup__close-button"></button>
@@ -131,7 +131,7 @@
   <template id="card-template">
     <li class="card">
       <button class="card__delete"></button>
-      <img class="card__photo" src="#" alt="шаблон карточки">
+      <img class="card__image" src="#" alt="шаблон карточки">
       <div class="card__container">
         <h2 class="card__title">шаблон карточки</h2>
         <button class="card__like-button"></button>

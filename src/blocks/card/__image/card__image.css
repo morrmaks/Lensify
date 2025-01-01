@@ -1,4 +1,4 @@
-.card__photo {
+.card__image {
   width: 100%;
   min-height: 371px;
   object-fit: cover;
@@ -8,6 +8,6 @@
   aspect-ratio: 1;
 }
 
-.card:hover .card__photo {
+.card:hover .card__image {
   transform: scale(1.05);
 }

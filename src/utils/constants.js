@@ -1,3 +1,10 @@
+const editAvatarButton = document.querySelector('.profile__avatar-container');
+const editProfileButton = document.querySelector('.edit-button');
+const addCardButton = document.querySelector('.add-button');
+
+const nameInput = document.querySelector('#name');
+const bioInput = document.querySelector('#bio');
+
 const config = {
   formSelector: '.form',
   inputSelector: '.form__input',
@@ -7,4 +14,11 @@ const config = {
   formErrorVisibleSelector: 'form__error_opened',
 }
 
-export { config };
+export {
+  editAvatarButton,
+  editProfileButton,
+  addCardButton,
+  nameInput,
+  bioInput,
+  config
+};

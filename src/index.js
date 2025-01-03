@@ -36,9 +36,7 @@ let userId;
 api.renderUserAndCards()
   .then(([cards, user]) => {
     userId = user[0].id;
-    userInfo.setUserObject(user[0]);
-    userInfo.setUserInfo(user[0]);
-    userInfo.setUserAvatar(user[0]);
+    userInfo.renderUserInfo(user[0]);
     cards.forEach(card => {
       cardList.addItem(createNewCard(card), 'append');
     });
@@ -46,10 +44,7 @@ api.renderUserAndCards()
   .catch(err => console.log(err));
 
 
-
-
 const cardList = new Section('.cards__list');
-
 
 
 const userInfo = new UserInfo({
@@ -64,24 +59,25 @@ function createNewCard(data) {
   return card.createCard();
 }
 
-
 function handleCardDelete(cardData) {
   popupDeleteCard.open(cardData);
 }
+
 function handleCardImageZoom(cardData) {
   popupFullScreenPicture.open(cardData);
 }
+
 function handleLikeSet(cardData) {
   return api.setLike(cardData.data, userInfo.getUserObject())
     .then(res => cardData.counter.textContent = res[0].likes.length)
     .catch(err => console.log(err))
 }
+
 function handleLikeDelete(cardData) {
   return api.deleteLike(cardData.data, userInfo.getUserObject())
     .then(res => cardData.counter.textContent = res[0].likes.length)
     .catch(err => console.log(err))
 }
-
 
 
 const popupAvatarEdit = new PopupWithForm('#popup-avatar', (data, submitButton) => {
@@ -96,8 +92,6 @@ const popupAvatarEdit = new PopupWithForm('#popup-avatar', (data, submitButton) 
 });
 
 
-
-
 const popupProfileEdit = new PopupWithForm('#popup-edit', (data, submitButton) => {
   submitButton.textContent = 'Сохранение...';
   api.setUserInfo(data, userId)
@@ -108,8 +102,6 @@ const popupProfileEdit = new PopupWithForm('#popup-edit', (data, submitButton) =
     .catch(err => console.log(err))
     .finally(() => submitButton.textContent = 'Сохранить')
 });
-
-
 
 
 const popupAddCard = new PopupWithForm('#popup-create-card', (data, submitButton) => {
@@ -124,7 +116,6 @@ const popupAddCard = new PopupWithForm('#popup-create-card', (data, submitButton
 });
 
 
-
 // fetch(`https://mesto.nomoreparties.co/v1/cohort-34/cards`, {
 //   method: 'GET',
 //   headers: {
@@ -132,9 +123,6 @@ const popupAddCard = new PopupWithForm('#popup-create-card', (data, submitButton
 //     authorization: `19e0a0be-b386-40fd-af16-51b037973d07`
 //   }
 // }).then(response => console.log(response.json()))
-
-
-
 
 
 const popupDeleteCard = new PopupWithConfirm('#popup-delete-card', (cardData, submitButton) => {
@@ -150,25 +138,7 @@ const popupDeleteCard = new PopupWithConfirm('#popup-delete-card', (cardData, su
 });
 
 
-
-
-
-
 const popupFullScreenPicture = new PopupWithImage('#popup-picture');
-
-
-
-
-// поставить лайк, если нажали на кнопку лайка в контейнере карточек
-// cardList.addEventListener('click', evt => {
-//   const evtTarget = evt.target;
-//   if (evtTarget.matches('.card__like-button')) {
-//     evtTarget.classList.toggle('card__like-button_active');
-//   }
-// });
-
-
-
 
 
 const formValidators = [];

@@ -13,6 +13,11 @@ export default class UserInfo {
     return this._userData;
   }
 
+  setUserInfo(inputs) {
+    this._name.textContent = inputs.name;
+    this._bio.textContent = inputs.bio;
+  }
+
   getUserInfo() {
     return {
       name: this._name.textContent,
@@ -20,12 +25,13 @@ export default class UserInfo {
     }
   }
 
-  setUserInfo(inputs) {
-    this._name.textContent = inputs.name;
-    this._bio.textContent = inputs.bio;
-  }
-
   setUserAvatar(input) {
     this._avatar.src = input.avatar;
+  }
+
+  renderUserInfo(data) {
+    this.setUserObject(data);
+    this.setUserInfo(data);
+    this.setUserAvatar(data);
   }
 }

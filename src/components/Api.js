@@ -105,17 +105,6 @@ export default class Api {
       })
   }
 
-  // setLike(card, userObject) {
-  //   return fetch(`${this._url}/cards?id=eq.${card.id}`, {
-  //     method: 'PATCH',
-  //     headers: this._headers,
-  //     body: JSON.stringify({
-  //       likes: userObject
-  //     })
-  //   })
-  //     .then(this._processResponse)
-  // }
-
   deleteLike(card, userObject) {
     return this._getCardLikes(card)
       .then(cardLikes => {
@@ -124,12 +113,4 @@ export default class Api {
         return this._setCardLikes(card, updateLikes);
       })
   }
-
-  // deleteLike(card) {
-  //   return fetch(`${this._url}/cards?id=eq.${card.id}/likes`, {
-  //     method: 'DELETE',
-  //     headers: this._headers,
-  //   })
-  //     .then(this._processResponse)
-  // }
 }

@@ -76,22 +76,60 @@ export default class Api {
       .then(this._processResponse)
   }
 
-  setLike() {
-    return fetch(`${this._url}/cards/`, {
+  _getCardLikes(card) {
+    return fetch(`${this._url}/cards?id=eq.${card.id}`, {
+      method: 'GET',
+      headers: this._headers,
+    })
+      .then(this._processResponse)
+      .then(cards => cards[0].likes || [])
+  }
+
+  _setCardLikes(card, likesArr) {
+    return fetch(`${this._url}/cards?id=eq.${card.id}`, {
       method: 'PATCH',
       headers: this._headers,
-      body: {
-
-      }
+      body: JSON.stringify({
+        likes: likesArr
+      })
     })
-      .then(this._processResponse)
+      .then((this._processResponse))
   }
 
-  deleteLike() {
-    return fetch(`${this._url}/cards/`, {
-      method: 'DELETE',
-      headers: this._headers,
-    })
-      .then(this._processResponse)
+  setLike(card, userObject) {
+    return this._getCardLikes(card)
+      .then(cardLikes => {
+        cardLikes.push(userObject);
+        console.log('лайк поставлен');
+        return this._setCardLikes(card, cardLikes);
+      })
   }
+
+  // setLike(card, userObject) {
+  //   return fetch(`${this._url}/cards?id=eq.${card.id}`, {
+  //     method: 'PATCH',
+  //     headers: this._headers,
+  //     body: JSON.stringify({
+  //       likes: userObject
+  //     })
+  //   })
+  //     .then(this._processResponse)
+  // }
+
+  deleteLike(card, userObject) {
+    return this._getCardLikes(card)
+      .then(cardLikes => {
+        const updateLikes = cardLikes.filter(like => like.id !== userObject.id);
+        console.log('лайк убран');
+        return this._setCardLikes(card, updateLikes);
+      })
+  }
+
+  // deleteLike(card) {
+  //   return fetch(`${this._url}/cards?id=eq.${card.id}/likes`, {
+  //     method: 'DELETE',
+  //     headers: this._headers,
+  //   })
+  //     .then(this._processResponse)
+  // }
 }

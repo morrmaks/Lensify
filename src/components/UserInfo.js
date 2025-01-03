@@ -5,6 +5,14 @@ export default class UserInfo {
     this._bio = document.querySelector(bioSelector);
   }
 
+  setUserObject(data) {
+    this._userData = data;
+  }
+
+  getUserObject() {
+    return this._userData;
+  }
+
   getUserInfo() {
     return {
       name: this._name.textContent,

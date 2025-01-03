@@ -31,18 +31,17 @@ const api = new Api(SUPABASE_URL, {
   }
 );
 
-let userId
+let userId;
 
 api.renderUserAndCards()
   .then(([cards, user]) => {
     userId = user[0].id;
+    userInfo.setUserObject(user[0]);
     userInfo.setUserInfo(user[0]);
     userInfo.setUserAvatar(user[0]);
     cards.forEach(card => {
       cardList.addItem(createNewCard(card), 'append');
     });
-    console.log(cards);
-
   })
   .catch(err => console.log(err));
 
@@ -61,7 +60,7 @@ const userInfo = new UserInfo({
 
 
 function createNewCard(data) {
-  const card = new Card(data, '#card-template', handleCardDelete, handleCardImageZoom, handleLikeSet, handleLikeDelete);
+  const card = new Card(data, '#card-template', handleCardDelete, handleCardImageZoom, handleLikeSet, handleLikeDelete, userId);
   return card.createCard();
 }
 
@@ -69,14 +68,18 @@ function createNewCard(data) {
 function handleCardDelete(cardData) {
   popupDeleteCard.open(cardData);
 }
-function handleCardImageZoom(data) {
-  popupFullScreenPicture.open(data);
+function handleCardImageZoom(cardData) {
+  popupFullScreenPicture.open(cardData);
 }
-function handleLikeSet() {
-
+function handleLikeSet(cardData) {
+  return api.setLike(cardData.data, userInfo.getUserObject())
+    .then(res => cardData.counter.textContent = res[0].likes.length)
+    .catch(err => console.log(err))
 }
-function handleLikeDelete() {
-
+function handleLikeDelete(cardData) {
+  return api.deleteLike(cardData.data, userInfo.getUserObject())
+    .then(res => cardData.counter.textContent = res[0].likes.length)
+    .catch(err => console.log(err))
 }
 
 
@@ -122,12 +125,10 @@ const popupAddCard = new PopupWithForm('#popup-create-card', (data, submitButton
 
 
 
-// fetch(`https://mesto.nomoreparties.co/v1/cohort-34/users/me`, {
+// fetch(`https://mesto.nomoreparties.co/v1/cohort-34/cards`, {
 //   method: 'GET',
 //   headers: {
 //     'Content-Type': 'application/json',
-//     // 'Prefer': 'return=representation',
-//     // 'apikey': SUPABASE_API_KEY,
 //     authorization: `19e0a0be-b386-40fd-af16-51b037973d07`
 //   }
 // }).then(response => console.log(response.json()))

@@ -39,8 +39,10 @@ api.renderUserAndCards()
     userInfo.setUserInfo(user[0]);
     userInfo.setUserAvatar(user[0]);
     cards.forEach(card => {
-      cardList.addItem(createNewCard(card));
-    })
+      cardList.addItem(createNewCard(card), 'append');
+    });
+    console.log(cards);
+
   })
   .catch(err => console.log(err));
 
@@ -64,11 +66,11 @@ function createNewCard(data) {
 }
 
 
-function handleCardDelete() {
-
+function handleCardDelete(cardData) {
+  popupDeleteCard.open(cardData);
 }
-function handleCardImageZoom() {
-
+function handleCardImageZoom(data) {
+  popupFullScreenPicture.open(data);
 }
 function handleLikeSet() {
 
@@ -134,20 +136,17 @@ const popupAddCard = new PopupWithForm('#popup-create-card', (data, submitButton
 
 
 
-// const popupDeleteCard = new PopupWithConfirm('#popup-delete-card');
-// const formDeleteCard = document.querySelector('.form[name="delete-card"]');
-
-// cardList.addEventListener('click', evt => {
-//   if (evt.target.matches('.card__delete')) {
-//     popupDeleteCard.open();
-//     const listItem = evt.target.closest('.card');
-//     formDeleteCard.addEventListener('submit', evt => {
-//       evt.preventDefault();
-//       listItem.remove();
-//       popupDeleteCard.close();
-//     });
-//   }
-// });
+const popupDeleteCard = new PopupWithConfirm('#popup-delete-card', (cardData, submitButton) => {
+  submitButton.textContent = 'Удаление...';
+  api.deleteCard(cardData.data)
+    .then(() => {
+      cardData.element.remove();
+      cardData.element = null;
+      popupDeleteCard.close();
+    })
+    .catch(err => console.log(err))
+    .finally(() => submitButton.textContent = 'Да')
+});
 
 
 
@@ -155,24 +154,9 @@ const popupAddCard = new PopupWithForm('#popup-create-card', (data, submitButton
 
 
 const popupFullScreenPicture = new PopupWithImage('#popup-picture');
-const popupImage = document.querySelector('.popup__image');
-const popupCaption = document.querySelector('.popup__caption');
 
-// открыть картинку на которую нажали если нажали на картинку в контейнере карточек
-// cardList.addEventListener('click', evt => {
-//   const evtTarget = evt.target;
-//   if (evtTarget.matches('.card__like-button, .card__delete')) return;
 
-//   const cardItem = evtTarget.closest('.card');
-//   if (!cardItem) return;
 
-//   const cardPicture = cardItem.querySelector('.card__image');
-
-//   popupImage.src = cardPicture.src;
-//   popupImage.alt = cardPicture.alt;
-//   popupCaption.textContent = cardPicture.alt;
-//   popupFullScreenPicture.open();
-// });
 
 // поставить лайк, если нажали на кнопку лайка в контейнере карточек
 // cardList.addEventListener('click', evt => {
@@ -217,3 +201,4 @@ addCardButton.addEventListener('click', () => {
   formValidators[popupAddCard.popupForm.name].resetValidation()
   popupAddCard.open();
 });
+

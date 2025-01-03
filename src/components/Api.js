@@ -45,8 +45,8 @@ export default class Api {
       .then(this._processResponse)
   }
 
-  deleteCard() {
-    return fetch(`${this._url}/cards`, {
+  deleteCard(card) {
+    return fetch(`${this._url}/cards?id=eq.${card.id}`, {
       method: 'DELETE',
       headers: this._headers,
     })

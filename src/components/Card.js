@@ -28,11 +28,11 @@ export default class Card {
     this._cardImage = this._cardElement.querySelector('.card__image');
     this._cardTitle = this._cardElement.querySelector('.card__title');
 
-    this._likeCounter.textContent = this.likesAmount();
+    this._likeCounter.textContent = this._likesAmount();
     this._cardImage.src = this._image;
     this._cardImage.alt = this._title;
     this._cardTitle.textContent = this._title;
-    this.setEventListeners();
+    this._setEventListeners();
 
     return this._cardElement;
   }
@@ -41,7 +41,7 @@ export default class Card {
 
   }
 
-  likesAmount() {
+  _likesAmount() {
     if (this._likes === null) return;
     return this._likes.length;
   }
@@ -54,23 +54,24 @@ export default class Card {
     evtTarget.classList.remove('card__like-button_active')
   }
 
-  _switchLikeState(evtTarget) {
-    if (evtTarget.classList.contains('card__like-button_active')) {
+  _switchLikeState() {
+    if (this._likeButton.classList.contains('card__like-button_active')) {
       this._setLike();
     } else {
       this._deleteLike();
     }
   }
 
-  setEventListeners() {
+  _setEventListeners() {
     this._cardElement.addEventListener('click', evt => {
       const evtTarget = evt.target;
-      if (evtTarget.matches(this._likeButton)) {
-        this._switchLikeState(evtTarget);
-      } else if (evtTarget.matches(this._deleteButton)) {
-        this._cardDelete();
+      if (evtTarget === this._likeButton) {
+        this._switchLikeState();
+      } else if (evtTarget === this._deleteButton) {
+        this._cardDelete({data: this._cardObject, element: this._cardElement});
       } else {
-        this._imageZoom();
+        const data = {image: this._cardObject.link, title: this._cardObject.name}
+        this._imageZoom(data);
       }
     })
   }

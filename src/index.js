@@ -23,39 +23,51 @@ if (module.hot) {
   module.hot.accept();
 };
 
-const api = new Api(SUPABASE_URL, {
-    'Content-Type': 'application/json',
-    'Prefer': 'return=representation',
-    'apikey': SUPABASE_API_KEY,
-    'Authorization': `Bearer ${SUPABASE_API_KEY}`
-  }
-);
+const api = new Api(SUPABASE_URL, SUPABASE_API_KEY)
 
-let userId;
 
-api.renderUserAndCards()
-  .then(([cards, user]) => {
-    userId = user[0].id;
+async function initializeApp() {
+  try {
+    document.querySelector('.body').style.backgroundColor = 'red';
+
+    const [cards, user] = await api.renderUserAndCards();
     userInfo.renderUserInfo(user[0]);
-    cards.forEach(card => {
-      cardList.addItem(createNewCard(card), 'append');
-    });
-  })
-  .catch(err => console.log(err));
+    cardList.processAndRenderCards(cards)
+    // const cardPromises = await cardList.buildCardsArray(cards);
+    // const cardElements = await Promise.all(cardPromises);
+
+    // cardList.renderSection(cardElements);
+  } catch (err) {
+    console.log(`Ошибка загрузки данных: ${err}`);
+  }
+  finally {
+    document.querySelector('.body').style.backgroundColor = 'black';
+  }
+}
+
+initializeApp();
 
 
-const cardList = new Section('.cards__list');
+const cardList = new Section('.cards__list', buildCardsArray);
+
+function buildCardsArray(cards) {
+  const cardPromises = cards.map(async card => {
+    const likes = await api.getLikesForCard(card);
+    return createNewCard(card, likes);
+  });
+  return cardPromises;
+}
 
 
 const userInfo = new UserInfo({
   avatarSelector: '.profile__avatar',
   nameSelector: '.profile__name',
-  bioSelector:'.profile__bio'
+  bioSelector: '.profile__bio'
 })
 
 
-function createNewCard(data) {
-  const card = new Card(data, '#card-template', handleCardDelete, handleCardImageZoom, handleLikeSet, handleLikeDelete, userId);
+function createNewCard(data, likes) {
+  const card = new Card(data, likes, '#card-template', handleCardDelete, handleCardImageZoom, handleLikeSet, handleLikeDelete, userInfo.userId);
   return card.createCard();
 }
 
@@ -69,13 +81,11 @@ function handleCardImageZoom(cardData) {
 
 function handleLikeSet(cardData) {
   return api.setLike(cardData.data, userInfo.getUserObject())
-    .then(res => cardData.counter.textContent = res[0].likes.length)
     .catch(err => console.log(err))
 }
 
 function handleLikeDelete(cardData) {
   return api.deleteLike(cardData.data, userInfo.getUserObject())
-    .then(res => cardData.counter.textContent = res[0].likes.length)
     .catch(err => console.log(err))
 }
 
@@ -107,22 +117,14 @@ const popupProfileEdit = new PopupWithForm('#popup-edit', (data, submitButton) =
 const popupAddCard = new PopupWithForm('#popup-create-card', (data, submitButton) => {
   submitButton.textContent = 'Создание...';
   api.addCard(data, userId)
-    .then(card => {
-      cardList.addItem(createNewCard(card[0]));
+    .then(async card => {
+      const likes = await api.getLikesForCard(card[0]);
+      cardList.addItem(createNewCard(card[0], likes));
       popupAddCard.close();
     })
     .catch(err => console.log(err))
     .finally(() => submitButton.textContent = 'Создать')
 });
-
-
-// fetch(`https://mesto.nomoreparties.co/v1/cohort-34/cards`, {
-//   method: 'GET',
-//   headers: {
-//     'Content-Type': 'application/json',
-//     authorization: `19e0a0be-b386-40fd-af16-51b037973d07`
-//   }
-// }).then(response => console.log(response.json()))
 
 
 const popupDeleteCard = new PopupWithConfirm('#popup-delete-card', (cardData, submitButton) => {
@@ -140,9 +142,9 @@ const popupDeleteCard = new PopupWithConfirm('#popup-delete-card', (cardData, su
 
 const popupFullScreenPicture = new PopupWithImage('#popup-picture');
 
-
-const formValidators = [];
 //подключение валидации всех форм
+const formValidators = [];
+
 const enableValidationForms = () => {
   const formList = Array.from(document.forms);
   formList.forEach(form => {

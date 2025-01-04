@@ -30,6 +30,7 @@
     "webpack-dev-server": "^5.1.0"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.47.10",
     "core-js": "^3.39.0"
   }
 }

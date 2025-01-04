@@ -1,116 +1,114 @@
+import { createClient } from '@supabase/supabase-js';
+
 export default class Api {
-  constructor(baseUrl, headers) {
-    this._url = baseUrl;
-    this._headers = headers;
+  constructor(supabaseUrl, supabaseKey) {
+    this._supabase = createClient(supabaseUrl, supabaseKey)
   }
 
-  _processResponse(res) {
-    if (!res.ok) {
-      return Promise.reject(`код ошибки ${res.status}`);
-    } else {
-      return res.json();
+  async _processResponse(res) {
+    if (res.error) {
+      throw new Error(res.error.message)
     }
+    return res.data;
   }
 
-  _getInitialCards() {
-    return fetch(`${this._url}/cards`, {
-      method: 'GET',
-      headers: this._headers,
-    })
-      .then(this._processResponse)
+  async _getInitialCards() {
+    const res = await this._supabase
+      .from('cards')
+      .select('*');
+   return this._processResponse(res);
   }
 
-  _getUserInfo() {
-    return fetch(`${this._url}/users`, {
-      method: 'GET',
-      headers: this._headers,
-    })
-      .then(this._processResponse)
+  async _getUserInfo() {
+    const res = await this._supabase
+      .from('users')
+      .select('*');
+    return this._processResponse(res);
   }
 
-  renderUserAndCards() {
-    return Promise.all([this._getInitialCards(), this._getUserInfo()]);
+  async renderUserAndCards() {
+    const res = await Promise.all([
+      this._getInitialCards(),
+      this._getUserInfo()
+    ]);
+    return res;
   }
 
-  addCard(data, userId) {
-    return fetch(`${this._url}/cards`, {
-      method: 'POST',
-      headers: this._headers,
-      body: JSON.stringify ({
-        name: data.title,
-        link: data.link,
-        owner_id: userId
+  async addCard(data, userId) {
+    const res = await this._supabase
+      .from('cards')
+      .insert([
+        {
+          name: data.title,
+          link: data.link,
+          owner_id: userId
+        }
+      ])
+      .select();
+    return this._processResponse(res);
+  }
+
+  async deleteCard(card) {
+    const res = await this._supabase
+      .from('cards')
+      .delete()
+      .eq('id', card.id);
+    return this._processResponse(res);
+  }
+
+  async setUserInfo(info, userId) {
+    const res = await this._supabase
+      .from('users')
+      .update({
+          name: info.name,
+          bio: info.bio
       })
-    })
-      .then(this._processResponse)
+      .eq('id', userId)
+      .select();
+    return this._processResponse(res);
   }
 
-  deleteCard(card) {
-    return fetch(`${this._url}/cards?id=eq.${card.id}`, {
-      method: 'DELETE',
-      headers: this._headers,
-    })
-      .then(this._processResponse)
-  }
-
-  setUserInfo(info, userId) {
-    return fetch(`${this._url}/users?id=eq.${userId}`, {
-      method: 'PATCH',
-      headers: this._headers,
-      body: JSON.stringify({
-        name: info.name,
-        bio: info.bio
+  async setUserAvatar(info, userId) {
+    const res = await this._supabase
+      .from('users')
+      .update({
+          avatar: info.avatar
       })
-    })
-      .then(this._processResponse)
+      .eq('id', userId)
+      .select();
+    return this._processResponse(res);
   }
 
-  setUserAvatar(info, userId) {
-    return fetch(`${this._url}/users?id=eq.${userId}`, {
-      method: 'PATCH',
-      headers: this._headers,
-      body: JSON.stringify({
-        avatar: info.avatar,
-      })
-    })
-      .then(this._processResponse)
+  async getLikesForCard(card) {
+    const res = await this._supabase
+      .from('likes')
+      .select('user_id')
+      .eq('card_id', card.id);
+    return this._processResponse(res);
   }
 
-  _getCardLikes(card) {
-    return fetch(`${this._url}/cards?id=eq.${card.id}`, {
-      method: 'GET',
-      headers: this._headers,
-    })
-      .then(this._processResponse)
-      .then(cards => cards[0].likes || [])
+  async setLike(card, userObject) {
+    const res = await this._supabase
+      .from('likes')
+      .insert([
+        {
+          card_id: card.id,
+          user_id: userObject.id
+        }
+      ])
+      .select();
+    return this._processResponse(res);
   }
 
-  _setCardLikes(card, likesArr) {
-    return fetch(`${this._url}/cards?id=eq.${card.id}`, {
-      method: 'PATCH',
-      headers: this._headers,
-      body: JSON.stringify({
-        likes: likesArr
-      })
-    })
-      .then((this._processResponse))
-  }
-
-  setLike(card, userObject) {
-    return this._getCardLikes(card)
-      .then(cardLikes => {
-        cardLikes.push(userObject);
-        console.log('лайк поставлен');
-        return this._setCardLikes(card, cardLikes);
-      })
-  }
-
-  deleteLike(card, userObject) {
-    return this._getCardLikes(card)
-      .then(cardLikes => {
-        const updateLikes = cardLikes.filter(like => like.id !== userObject.id);
-        console.log('лайк убран');
-        return this._setCardLikes(card, updateLikes);
-      })
+  async deleteLike(card, userObject) {
+    const res = await this._supabase
+      .from('likes')
+      .delete()
+      .match({
+        card_id: card.id,
+        user_id: userObject.id
+      });
+    return this._processResponse(res);
   }
 }
+

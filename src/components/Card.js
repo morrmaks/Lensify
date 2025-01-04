@@ -1,9 +1,9 @@
 export default class Card {
-  constructor(cardObject, cardTemplateId, handleCardDelete, handleCardImageZoom, handleLikeSet, handleLikeDelete, userId) {
+  constructor(cardObject, likes, cardTemplateId, handleCardDelete, handleCardImageZoom, handleLikeSet, handleLikeDelete, userId) {
     this._cardObject = cardObject;
     this._title = cardObject.name;
     this._image = cardObject.link;
-    this._likes = cardObject.likes || [];
+    this._likes = likes;
     this._cardId = cardObject.id;
     this._userId = cardObject.owner_id;
     this._cardTemplateId = document.querySelector(cardTemplateId);
@@ -31,19 +31,14 @@ export default class Card {
     this._cardTitle = this._cardElement.querySelector('.card__title');
     this._cardData = {data: this._cardObject, counter: this._likeCounter};
 
-    this._likeCounter.textContent = this._likesAmount();
+    this._likeCounter.textContent = this._likes.length || '';
     this._cardImage.src = this._image;
     this._cardImage.alt = this._title;
     this._cardTitle.textContent = this._title;
-    this._setEventListeners();
-    this._isLiked();
+    this._setEventListeners()
+    this._isLiked(this._likes);
 
     return this._cardElement;
-  }
-
-  _likesAmount() {
-    if (this._likes === null) return;
-    return this._likes.length;
   }
 
   _fillLikeButton() {
@@ -59,7 +54,7 @@ export default class Card {
   }
 
   _decrementLikeCounter() {
-    this._likeCounter.textContent = +this._likeCounter.textContent - 1;
+    this._likeCounter.textContent = +this._likeCounter.textContent - 1 || '';
   }
 
   _handleUnlike(data) {
@@ -108,9 +103,9 @@ export default class Card {
     })
   }
 
-  _isLiked() {
-    this._likes.forEach(like => {
-      if (like.id === this._userId) {
+  _isLiked(likes) {
+    likes.forEach(like => {
+      if (like.user_id === this._userId) {
         this._fillLikeButton();
       }
     })

@@ -11,7 +11,7 @@
   font-family: 'Inter';
   font-style: normal;
   font-display: swap;
-  src: url(./Inter/Inter-Medium.woff2) format('woff2'),
+  src: url(./inter/Inter-Medium.woff2) format('woff2'),
        url(./inter/Inter-Medium.woff) format('woff');
   font-weight: 500;
 }

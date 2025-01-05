@@ -8,6 +8,8 @@
   aspect-ratio: 1;
 }
 
-.card:hover .card__image {
-  transform: scale(1.05);
+@media (hover: hover) { /* для устройств с мышью */
+  .card:hover .card__image {
+    transform: scale(1.05);
+  }
 }

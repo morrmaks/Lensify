@@ -6,7 +6,7 @@ export default class UserInfo {
     this.userId;
   }
 
-  setUserObject(data) {
+  _setUserObject(data) {
     this._userData = data;
   }
 
@@ -35,7 +35,7 @@ export default class UserInfo {
   }
 
   renderUserInfo(data) {
-    this.setUserObject(data);
+    this._setUserObject(data);
     this.setUserInfo(data);
     this.setUserAvatar(data);
     this._setUserId(data);

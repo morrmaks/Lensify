@@ -1,0 +1,31 @@
+.popup__container_animate {
+  animation: popup-close 0.2s ease forwards;
+}
+
+.popup__opened .popup__container_animate {
+  animation: popup-open 0.2s ease;
+}
+
+@keyframes popup-open {
+  0% {
+    transform: scale(1);
+  }
+  1% {
+    transform: scale(0.5)
+  }
+  75% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes popup-close {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0.5);
+  }
+}

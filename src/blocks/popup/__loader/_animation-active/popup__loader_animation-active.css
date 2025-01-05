@@ -1,0 +1,3 @@
+.popup__loader_animation-active div {
+  animation-play-state: running;
+}

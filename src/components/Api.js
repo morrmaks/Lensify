@@ -15,7 +15,8 @@ export default class Api {
   async _getInitialCards() {
     const res = await this._supabase
       .from('cards')
-      .select('*');
+      .select('*')
+      .order('created_at', {ascending: false});
    return this._processResponse(res);
   }
 

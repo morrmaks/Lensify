@@ -49,7 +49,7 @@
     <!-- попапы -->
     <!-- попап изменения аватарки -->
     <section class="popup" id="popup-avatar">
-      <div class="popup__container">
+      <div class="popup__container popup__container_animate">
         <button class="popup__close-button"></button>
         <h2 class="popup__title">Изменить аватар</h2>
         <form action="" class="form popup__form" name="avatar" novalidate>
@@ -66,7 +66,7 @@
 
     <!-- попап редактирования данных профиля -->
     <section class="popup" id="popup-edit">
-      <div class="popup__container">
+      <div class="popup__container popup__container_animate">
         <button class="popup__close-button"></button>
         <h2 class="popup__title">Редактировать профиль</h2>
         <form action="" class="form popup__form" name="edit-profile" novalidate>
@@ -87,7 +87,7 @@
 
     <!-- попап добавления карточки -->
     <section class="popup" id="popup-create-card">
-      <div class="popup__container">
+      <div class="popup__container popup__container_animate">
         <button class="popup__close-button"></button>
         <h2 class="popup__title">Публикация</h2>
         <form action="" class="form popup__form" name="create-card" novalidate>
@@ -108,7 +108,7 @@
 
     <!-- попап удаления карточки -->
     <section class="popup" id="popup-delete-card">
-      <div class="popup__container">
+      <div class="popup__container popup__container_animate">
         <button class="popup__close-button"></button>
         <h2 class="popup__title">Вы уверены?</h2>
         <form action="" class="form popup__form popup__form_delete-card" name="delete-card" novalidate>
@@ -119,11 +119,18 @@
 
     <!-- попап изображения -->
     <section class="popup popup__picture" id="popup-picture">
-      <figure class="popup__image-container">
+      <figure class="popup__image-container popup__container_animate">
         <button class="popup__close-button"></button>
         <img class="popup__image" src="#" alt="Название">
         <figcation class="popup__caption">Название</figcation>
       </figure>
+    </section>
+
+    <!-- попап лоадера -->
+    <section class="popup popup__loader" id="popup-loader">
+      <div class="popup__loader_spinner">
+        <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+      </div>
     </section>
   </div>
 

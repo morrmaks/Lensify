@@ -5,6 +5,7 @@ import FormValidator from '@components/FormValidator';
 import PopupWithForm from '@components/PopupWithForm.js';
 import PopupWithConfirm from '@components/PopupWithConfirm.js';
 import PopupWithImage from '@components/PopupWithImage.js';
+import PopupWithLoader from '@components/PopupWithLoader.js';
 import Section from '@components/Section.js';
 import UserInfo from '@components/UserInfo.js';
 const SUPABASE_URL = process.env.SUPABASE_URL;
@@ -18,30 +19,28 @@ import {
   config
 } from '@utils/constants.js';
 
+
 //подключение горячих модулей вебпак
 if (module.hot) {
   module.hot.accept();
 };
 
+
 const api = new Api(SUPABASE_URL, SUPABASE_API_KEY)
 
+const popupWithLoader = new PopupWithLoader('#popup-loader');
 
 async function initializeApp() {
   try {
-    document.querySelector('.body').style.backgroundColor = 'red';
-
+    popupWithLoader.open();
     const [cards, user] = await api.renderUserAndCards();
     userInfo.renderUserInfo(user[0]);
     cardList.processAndRenderCards(cards)
-    // const cardPromises = await cardList.buildCardsArray(cards);
-    // const cardElements = await Promise.all(cardPromises);
-
-    // cardList.renderSection(cardElements);
   } catch (err) {
     console.log(`Ошибка загрузки данных: ${err}`);
   }
   finally {
-    document.querySelector('.body').style.backgroundColor = 'black';
+    popupWithLoader.close();
   }
 }
 
@@ -92,7 +91,7 @@ function handleLikeDelete(cardData) {
 
 const popupAvatarEdit = new PopupWithForm('#popup-avatar', (data, submitButton) => {
   submitButton.textContent = 'Сохранение...';
-  api.setUserAvatar(data, userId)
+  api.setUserAvatar(data, userInfo.userId)
     .then(data => {
       userInfo.setUserAvatar(data[0]);
       popupAvatarEdit.close();
@@ -104,7 +103,7 @@ const popupAvatarEdit = new PopupWithForm('#popup-avatar', (data, submitButton) 
 
 const popupProfileEdit = new PopupWithForm('#popup-edit', (data, submitButton) => {
   submitButton.textContent = 'Сохранение...';
-  api.setUserInfo(data, userId)
+  api.setUserInfo(data, userInfo.userId)
     .then(data => {
       userInfo.setUserInfo(data[0]);
       popupProfileEdit.close();
@@ -116,7 +115,7 @@ const popupProfileEdit = new PopupWithForm('#popup-edit', (data, submitButton) =
 
 const popupAddCard = new PopupWithForm('#popup-create-card', (data, submitButton) => {
   submitButton.textContent = 'Создание...';
-  api.addCard(data, userId)
+  api.addCard(data, userInfo.userId)
     .then(async card => {
       const likes = await api.getLikesForCard(card[0]);
       cardList.addItem(createNewCard(card[0], likes));
@@ -141,6 +140,7 @@ const popupDeleteCard = new PopupWithConfirm('#popup-delete-card', (cardData, su
 
 
 const popupFullScreenPicture = new PopupWithImage('#popup-picture');
+
 
 //подключение валидации всех форм
 const formValidators = [];

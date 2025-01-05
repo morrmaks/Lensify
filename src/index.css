@@ -53,6 +53,7 @@
 @import url(./blocks/popup/popup.css);
 @import url(./blocks/popup/__opened/popup__opened.css);
 @import url(./blocks/popup/__container/popup__container.css);
+@import url(./blocks/popup/__container/_animate/popup__container_animate.css);
 @import url(./blocks/popup/__close-button/popup__close-button.css);
 @import url(./blocks/popup/__title/popup__title.css);
 @import url(./blocks/popup/__form/popup__form.css);
@@ -61,6 +62,9 @@
 @import url(./blocks/popup/__image-container/popup__image-container.css);
 @import url(./blocks/popup/__image/popup__image.css);
 @import url(./blocks/popup/__caption/popup__caption.css);
+@import url(./blocks/popup/__loader/popup__loader.css);
+@import url(./blocks/popup/__loader/_spinner/popup__loader_spinner.css);
+@import url(./blocks/popup/__loader/_animation-active/popup__loader_animation-active.css);
 
 /* формы */
 @import url(./blocks/form/form.css);

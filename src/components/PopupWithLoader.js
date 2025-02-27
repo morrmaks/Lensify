@@ -1,6 +1,6 @@
 import Popup from '@components/Popup';
 
-export default class PopupWithImage extends Popup {
+export default class PopupWithLoader extends Popup {
   constructor(popupSelector) {
     super(popupSelector);
     this._loader = this.popup.querySelector('.popup__loader_spinner');

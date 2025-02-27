@@ -9,7 +9,7 @@ export default class Section {
   }
 
   addItem(element, insertMethod) {
-    if (insertMethod == 'append') {
+    if (insertMethod === 'append') {
       this._container.append(element);
     } else {
       this._container.prepend(element);

@@ -10,6 +10,7 @@ import Section from '@components/Section.js';
 import UserInfo from '@components/UserInfo.js';
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_API_KEY = process.env.SUPABASE_API_KEY;
+
 import {
   editAvatarButton,
   editProfileButton,
@@ -23,7 +24,7 @@ import {
 //подключение горячих модулей вебпак
 if (module.hot) {
   module.hot.accept();
-};
+}
 
 
 const api = new Api(SUPABASE_URL, SUPABASE_API_KEY)
@@ -50,11 +51,10 @@ initializeApp();
 const cardList = new Section('.cards__list', buildCardsArray);
 
 function buildCardsArray(cards) {
-  const cardPromises = cards.map(async card => {
+  return cards.map(async card => {
     const likes = await api.getLikesForCard(card);
     return createNewCard(card, likes);
   });
-  return cardPromises;
 }
 
 
@@ -156,7 +156,6 @@ const enableValidationForms = () => {
 
 enableValidationForms();
 
-
 editAvatarButton.addEventListener('click', () => {
   formValidators[popupAvatarEdit.popupForm.name].resetValidation()
   popupAvatarEdit.open();
@@ -174,4 +173,3 @@ addCardButton.addEventListener('click', () => {
   formValidators[popupAddCard.popupForm.name].resetValidation()
   popupAddCard.open();
 });
-

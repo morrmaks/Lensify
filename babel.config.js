@@ -7,7 +7,7 @@ const presets = [
       chrome: '64',
       safari: '11.1',
     },
-    useBuiltIns: 'entry', //использовать полифилы для браузеров из targets
+    useBuiltIns: 'entry',
     corejs: 3,
   }]
 ];

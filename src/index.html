@@ -24,7 +24,7 @@
       <section class="profile content__profile" aria-label="Блок с профилем">
         <div class="profile__avatar-container">
           <div id="progress"></div>
-          <img class="profile__avatar" src="https://grandfestival.vcht.center/storage/exponents/logos/2186_logo.jpg" alt="аватар профиля">
+          <img class="profile__avatar" src="<%= require('./images/empty_avatar.jpg') %>" alt="аватар профиля">
         </div>
         <div class="profile__info">
           <h1 class="profile__name">Ваше имя</h1>
@@ -119,10 +119,10 @@
 
     <!-- попап изображения -->
     <section class="popup popup__picture" id="popup-picture">
-      <figure class="popup__image-container popup__container_animate">
+      <figure class="popup__image-container">
         <button class="popup__close-button"></button>
         <img class="popup__image" src="#" alt="Название">
-        <figcation class="popup__caption">Название</figcation>
+        <figcaption class="popup__caption">Название</figcaption>
       </figure>
     </section>
 

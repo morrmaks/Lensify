@@ -3,15 +3,15 @@
 }
 
 .popup__opened .popup__container_animate {
-  animation: popup-open 0.2s ease;
+  animation: modal-open 0.2s ease;
 }
 
-@keyframes popup-open {
+@keyframes modal-open {
   0% {
     transform: scale(1);
   }
   1% {
-    transform: scale(0.5)
+    transform: scale(0.5);
   }
   75% {
     transform: scale(1.02);

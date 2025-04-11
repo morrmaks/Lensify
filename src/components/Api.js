@@ -49,6 +49,17 @@ export default class Api {
     return this._processResponse(res);
   }
 
+  async editCard(data, card) {
+    const res = await this._supabase
+      .from('cards')
+      .update({
+        name: data.title,
+      })
+      .eq('id', card.id)
+      .select();
+    return this._processResponse(res);
+  }
+
   async deleteCard(card) {
     const res = await this._supabase
       .from('cards')

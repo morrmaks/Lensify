@@ -1,5 +1,5 @@
 export default class Card {
-  constructor(cardObject, likes, cardTemplateId, handleCardDelete, handleCardImageZoom, handleLikeSet, handleLikeDelete, userId) {
+  constructor(cardObject, likes, cardTemplateId, handleCardDelete, handleCardImageZoom, handleLikeSet, handleLikeDelete, handleCardEdit, userId) {
     this._cardObject = cardObject;
     this._title = cardObject.name;
     this._image = cardObject.link;
@@ -8,6 +8,7 @@ export default class Card {
     this._userId = cardObject.owner_id;
     this._cardTemplateId = document.querySelector(cardTemplateId);
     this._cardDelete = handleCardDelete; //колбэк с открытием попапа удаления, поэтому берется извне
+    this._cardEdit = handleCardEdit;
     this._imageZoom = handleCardImageZoom; //колбэк с открытием попапа изображения
     this._setLike = handleLikeSet; //колбэк с отправкой на апи
     this._deleteLike = handleLikeDelete;
@@ -27,6 +28,7 @@ export default class Card {
     this._likeButton = this._cardElement.querySelector('.card__like-button');
     this._likeCounter = this._cardElement.querySelector('.card__like-counter');
     this._deleteButton = this._cardElement.querySelector('.card__delete');
+    this._editButton = this._cardElement.querySelector('.card__edit-button');
     this._cardImage = this._cardElement.querySelector('.card__image');
     this._cardTitle = this._cardElement.querySelector('.card__title');
     this._cardData = {data: this._cardObject, counter: this._likeCounter};
@@ -96,6 +98,8 @@ export default class Card {
         this._switchLikeState(this._cardData);
       } else if (evtTarget === this._deleteButton) {
         this._cardDelete({data: this._cardObject, element: this._cardElement});
+      } else if (evtTarget === this._editButton) {
+        this._cardEdit({data: this._cardObject, element: this._cardElement, title: this._cardTitle});
       } else {
         const data = {image: this._cardObject.link, title: this._cardObject.name}
         this._imageZoom(data);

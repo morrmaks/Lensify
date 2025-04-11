@@ -1,0 +1,29 @@
+.card__edit-button {
+  background-color: transparent;
+  background-image: url(../../../images/pen.svg);
+  background-size: max(8px, 8px, 8px);
+  background-repeat: no-repeat;
+  background-position: center;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  grid-row: 2;
+  grid-column: 3;
+  justify-self: center;
+  align-self: center;
+  transition: opacity 0.3s;
+}
+
+@media (hover: hover) { /* для устройств с мышью */
+  .card__edit-button:hover {
+    opacity: 0.5;
+    cursor: pointer;
+  }
+}
+
+.card__title:empty + .card__edit-button {
+  grid-row: 1;
+  grid-column: 3;
+}

@@ -4,6 +4,7 @@ const addCardButton = document.querySelector('.add-button');
 
 const nameInput = document.querySelector('#name');
 const bioInput = document.querySelector('#bio');
+const titleCardEditInput = document.querySelector('#edit-card__title');
 
 const config = {
   formSelector: '.form',
@@ -20,5 +21,6 @@ export {
   addCardButton,
   nameInput,
   bioInput,
+  titleCardEditInput,
   config
 };

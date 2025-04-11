@@ -17,7 +17,8 @@ import {
   addCardButton,
   nameInput,
   bioInput,
-  config
+  titleCardEditInput,
+  config,
 } from '@utils/constants.js';
 
 
@@ -66,12 +67,18 @@ const userInfo = new UserInfo({
 
 
 function createNewCard(data, likes) {
-  const card = new Card(data, likes, '#card-template', handleCardDelete, handleCardImageZoom, handleLikeSet, handleLikeDelete, userInfo.userId);
+  const card = new Card(data, likes, '#card-template', handleCardDelete, handleCardImageZoom, handleLikeSet, handleLikeDelete, handleCardEdit, userInfo.userId);
   return card.createCard();
 }
 
 function handleCardDelete(cardData) {
   popupDeleteCard.open(cardData);
+}
+
+function handleCardEdit(cardData) {
+  formValidators[popupEditCard.popupForm.name].resetValidation();
+  titleCardEditInput.value = cardData.title.textContent;
+  popupEditCard.open(cardData);
 }
 
 function handleCardImageZoom(cardData) {
@@ -126,6 +133,19 @@ const popupAddCard = new PopupWithForm('#popup-create-card', (data, submitButton
 });
 
 
+
+const popupEditCard = new PopupWithForm('#popup-edit-card', (data, submitButton, cardData) => {
+  submitButton.textContent = 'Вносятся кардинальные изменения...';
+  api.editCard(data, cardData.data)
+    .then(async card => {
+      cardData.title.textContent = data.title;
+      popupEditCard.close();
+    })
+    .catch(err => console.log(err))
+    .finally(() => submitButton.textContent = 'Изменить')
+});
+
+
 const popupDeleteCard = new PopupWithConfirm('#popup-delete-card', (cardData, submitButton) => {
   submitButton.textContent = 'Удаление...';
   api.deleteCard(cardData.data)
@@ -170,6 +190,6 @@ editProfileButton.addEventListener('click', () => {
 });
 
 addCardButton.addEventListener('click', () => {
-  formValidators[popupAddCard.popupForm.name].resetValidation()
+  formValidators[popupAddCard.popupForm.name].resetValidation();
   popupAddCard.open();
 });
